@@ -326,11 +326,23 @@ h2::after {
 }
 
 .timeline-list {
+    position: relative;
     list-style: none;
     display: grid;
     gap: 12px;
-    border-left: 4px solid var(--pencil);
-    padding-left: 20px;
+    padding-left: 24px;
+}
+
+.timeline-list::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--pencil);
+    border-radius: 2px;
+    transform-origin: top;
 }
 
 .timeline-list details {
@@ -528,5 +540,159 @@ h2::after {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+}
+
+/* ===== Animations ===== */
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes settle {
+    from {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes slide-frame {
+    from {
+        opacity: 0;
+        transform: translate(-28px, -28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Hero: one staggered page-load sequence */
+.hero h1 {
+    animation: rise 0.8s ease both;
+}
+
+.hero .tagline {
+    animation: rise 0.8s ease 0.15s both;
+}
+
+.hero .intro {
+    animation: rise 0.8s ease 0.3s both;
+}
+
+.hero .button {
+    animation: rise 0.8s ease 0.45s both;
+}
+
+.portrait-frame::before {
+    animation: slide-frame 0.8s ease 0.5s both;
+}
+
+#main-image {
+    animation: settle 1s ease 0.2s both;
+}
+
+/* Scroll progress bar under the nav */
+.progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--pencil);
+    transform-origin: left;
+    transform: scaleX(var(--p, 0));
+}
+
+/* Hover lift (uses `translate` so it never fights the reveal transform) */
+.facts div,
+.card,
+.timeline-list details {
+    transition: translate 0.25s ease, box-shadow 0.25s ease;
+}
+
+.button {
+    transition: translate 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+@media (hover: hover) {
+
+    .facts div:hover,
+    .card:hover,
+    .timeline-list details:hover {
+        translate: 0 -4px;
+        box-shadow: 0 12px 26px rgba(20, 33, 61, 0.16);
+    }
+
+    .button:hover {
+        translate: 0 -2px;
+    }
+}
+
+/* Timeline entries ease open */
+.timeline-list details[open]>p {
+    animation: rise 0.35s ease both;
+}
+
+.timeline-list summary::after {
+    transition: transform 0.25s ease;
+}
+
+.timeline-list details[open] summary::after {
+    transform: rotate(180deg);
+}
+
+/* Scroll reveal: only hides content when JS is running */
+.js .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s ease var(--delay, 0s), transform 0.7s ease var(--delay, 0s),
+        translate 0.25s ease, box-shadow 0.25s ease;
+}
+
+.js .reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Timeline line draws itself down the page */
+.js .timeline-list::before {
+    transform: scaleY(0);
+    transition: transform 1.4s ease;
+}
+
+.js .timeline-list.visible::before {
+    transform: scaleY(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .js .reveal {
+        opacity: 1;
+        transform: none;
+    }
+
+    .js .timeline-list::before {
+        transform: none;
     }
 }
