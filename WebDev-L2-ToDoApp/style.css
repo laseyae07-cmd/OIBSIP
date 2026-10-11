@@ -1,0 +1,279 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #333;
+}
+
+.app-container {
+    background: #fff;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+#task-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#task-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+#add-btn {
+    padding: 12px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+#add-btn:hover {
+    background-color: #2980b9;
+}
+
+.lists-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.badge {
+    font-size: 0.8rem;
+    background: #eee;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 400;
+}
+
+.empty-state {
+    color: #999;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px 0;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #3498db;
+}
+
+li.completed {
+    border-left-color: #2ecc71;
+    opacity: 0.8;
+}
+
+.task-content {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.task-text {
+    font-size: 1rem;
+    word-break: break-all;
+}
+
+li.completed .task-text {
+    text-decoration: line-through;
+    color: #7f8c8d;
+}
+
+.task-time {
+    display: block;
+    font-size: 0.75rem;
+    color: #95a5a6;
+    margin-top: 4px;
+}
+
+.task-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.task-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.btn-complete {
+    color: #2ecc71;
+    background: #e8f8f5;
+}
+
+.btn-edit {
+    color: #f39c12;
+    background: #fef5e7;
+}
+
+.btn-delete {
+    color: #e74c3c;
+    background: #fdedec;
+}
+
+.btn-complete:hover {
+    background: #d1f2eb;
+}
+
+.btn-edit:hover {
+    background: #fdebd0;
+}
+
+.btn-delete:hover {
+    background: #fadbd8;
+}
+
+/* ---------- Additions ---------- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.form-error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin: -20px 0 20px;
+}
+
+.form-error[hidden] {
+    display: none;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 2px solid #3498db;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.edit-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.edit-input.invalid {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+}
+
+.btn-cancel {
+    color: #7f8c8d;
+    background: #ecf0f1;
+}
+
+.btn-cancel:hover {
+    background: #dde2e4;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 4px 0;
+}
+
+.link-btn[hidden] {
+    display: none;
+}
+
+button:focus-visible {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+.task-text {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 20px;
+    }
+
+    li {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .task-content {
+        margin-right: 0;
+    }
+
+    .task-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}

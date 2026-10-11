@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="app-container">
+        <h1>Task Manager</h1>
+
+        <form id="task-form" class="input-section" autocomplete="off">
+            <label for="task-input" class="visually-hidden">New task</label>
+            <input type="text" id="task-input" placeholder="What needs to be done?" maxlength="200">
+            <button type="submit" id="add-btn">Add Task</button>
+        </form>
+        <p id="form-error" class="form-error" role="alert" hidden>Type a task before adding it.</p>
+
+        <div class="lists-container">
+            <section class="list-section" aria-labelledby="pending-heading">
+                <h2 id="pending-heading">Pending Tasks <span id="pending-count" class="badge" aria-live="polite">0
+                        pending</span></h2>
+                <p id="pending-empty" class="empty-state">No pending tasks. You are all caught up!</p>
+                <ul id="pending-list"></ul>
+            </section>
+
+            <section class="list-section" aria-labelledby="completed-heading">
+                <h2 id="completed-heading">Completed Tasks <span id="completed-count" class="badge" aria-live="polite">0
+                        completed</span></h2>
+                <p id="completed-empty" class="empty-state">Nothing completed yet. Finish a task and it will show up
+                    here.</p>
+                <ul id="completed-list"></ul>
+                <button type="button" id="clear-completed" class="link-btn" hidden>Clear all completed</button>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
