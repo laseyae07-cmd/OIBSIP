@@ -9,12 +9,17 @@ const completedCount = document.getElementById('completed-count');
 const pendingEmpty = document.getElementById('pending-empty');
 const completedEmpty = document.getElementById('completed-empty');
 const clearCompletedBtn = document.getElementById('clear-completed');
+const progressFill = document.getElementById('progress-fill');
+const progressLabel = document.getElementById('progress-label');
+const progressBar = document.querySelector('.bar');
+const todayEl = document.getElementById('today');
 
 const STORAGE_KEY = 'tasks';
 
 // ---------- State ----------
 let tasks = loadTasks();
 let editingId = null; // id of the task currently being edited inline
+let justAddedId = null; // used to animate a newly added task
 
 // ---------- Storage ----------
 function loadTasks() {
@@ -70,9 +75,12 @@ function makeButton(label, className, action, id) {
 }
 
 // ---------- Rendering ----------
+const CHECK_SVG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg>';
+
 function buildTaskItem(task) {
     const li = document.createElement('li');
     if (task.completed) li.classList.add('completed');
+    if (task.id === justAddedId) li.classList.add('enter');
 
     const content = document.createElement('div');
     content.className = 'task-content';
@@ -81,6 +89,7 @@ function buildTaskItem(task) {
 
     if (task.id === editingId) {
         // Inline edit mode
+        li.classList.add('editing');
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'edit-input';
@@ -94,29 +103,39 @@ function buildTaskItem(task) {
             makeButton('Save', 'btn-complete', 'save-edit', task.id),
             makeButton('Cancel', 'btn-cancel', 'cancel-edit', task.id)
         );
-    } else {
-        const text = document.createElement('span');
-        text.className = 'task-text';
-        text.textContent = task.text; // textContent prevents HTML injection
-
-        const time = document.createElement('span');
-        time.className = 'task-time';
-        time.textContent = task.completed && task.completedAt
-            ? `Added ${formatTime(task.createdAt)} · Completed ${formatTime(task.completedAt)}`
-            : `Added ${formatTime(task.createdAt)}`;
-
-        content.append(text, time);
-
-        actions.appendChild(
-            makeButton(task.completed ? 'Mark Pending' : 'Mark Complete', 'btn-complete', 'toggle', task.id)
-        );
-        if (!task.completed) {
-            actions.appendChild(makeButton('Edit', 'btn-edit', 'edit', task.id));
-        }
-        actions.appendChild(makeButton('Delete', 'btn-delete', 'delete', task.id));
+        li.append(content, actions);
+        return li;
     }
 
-    li.append(content, actions);
+    // Round check button = the Mark Complete / Mark Pending toggle
+    const label = task.completed ? 'Mark Pending' : 'Mark Complete';
+    const check = document.createElement('button');
+    check.type = 'button';
+    check.className = 'check';
+    check.dataset.action = 'toggle';
+    check.dataset.id = task.id;
+    check.setAttribute('aria-label', label);
+    check.title = label;
+    check.innerHTML = CHECK_SVG; // static markup, no user input
+
+    const text = document.createElement('span');
+    text.className = 'task-text';
+    text.textContent = task.text; // textContent prevents HTML injection
+
+    const time = document.createElement('span');
+    time.className = 'task-time';
+    time.textContent = task.completed && task.completedAt
+        ? `Added ${formatTime(task.createdAt)} · Completed ${formatTime(task.completedAt)}`
+        : `Added ${formatTime(task.createdAt)}`;
+
+    content.append(text, time);
+
+    if (!task.completed) {
+        actions.appendChild(makeButton('Edit', 'btn-edit', 'edit', task.id));
+    }
+    actions.appendChild(makeButton('Delete', 'btn-delete', 'delete', task.id));
+
+    li.append(check, content, actions);
     return li;
 }
 
@@ -144,6 +163,15 @@ function renderTasks() {
     completedEmpty.style.display = cCount === 0 ? 'block' : 'none';
     clearCompletedBtn.hidden = cCount === 0;
 
+    // Progress summary in the header
+    const total = pCount + cCount;
+    const pct = total === 0 ? 0 : Math.round((cCount / total) * 100);
+    progressLabel.textContent = `${cCount} of ${total} done`;
+    progressFill.style.width = `${pct}%`;
+    progressBar.setAttribute('aria-valuenow', pct);
+
+    justAddedId = null;
+
     // Put the cursor in the edit box when editing starts
     if (editingId !== null) {
         const box = document.querySelector('.edit-input');
@@ -156,8 +184,10 @@ function renderTasks() {
 
 // ---------- Actions ----------
 function addTask(text) {
+    const id = Date.now() + Math.random();
+    justAddedId = id;
     tasks.push({
-        id: Date.now() + Math.random(),
+        id,
         text,
         completed: false,
         createdAt: Date.now(),
@@ -256,4 +286,7 @@ clearCompletedBtn.addEventListener('click', () => {
 });
 
 // ---------- Initial render ----------
+todayEl.textContent = new Date().toLocaleDateString([], {
+    weekday: 'long', day: 'numeric', month: 'long'
+});
 renderTasks();
