@@ -34,3 +34,17 @@ const observer = new IntersectionObserver(entries => {
     });
 }, { rootMargin: '-40% 0px -55% 0px' });
 sections.forEach(s => s && observer.observe(s));
+
+// 4. Hamburger menu (mobile)
+const menuBtn = document.getElementById('menu-toggle');
+const navList = document.getElementById('nav-links');
+if (menuBtn && navList) {
+    const setMenu = (open) => {
+        navList.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    menuBtn.addEventListener('click', () => setMenu(!navList.classList.contains('open')));
+    navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+}

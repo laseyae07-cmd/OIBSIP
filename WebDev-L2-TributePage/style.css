@@ -91,6 +91,41 @@ blockquote,
     border-bottom-color: var(--pencil);
 }
 
+/* Hamburger button: hidden on wide screens */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: none;
+    border: 2px solid #4a587a;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 /* Hero: text left, framed portrait right */
 .hero {
     display: grid;
@@ -422,8 +457,36 @@ h2::after {
         margin: 0 18px 0 0;
     }
 
+    .menu-toggle {
+        display: flex;
+    }
+
     .topnav ul {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--ink);
+        border-top: 1px solid #2e3d63;
+        padding: 8px 24px 16px;
+    }
+
+    .topnav ul.open {
+        display: flex;
+    }
+
+    .topnav ul a {
+        display: block;
+        padding: 12px 0;
+        font-size: 1.05rem;
+        border-bottom: none;
+    }
+
+    .topnav ul a.active {
+        color: var(--pencil);
     }
 }
 
