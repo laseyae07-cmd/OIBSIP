@@ -10,7 +10,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Hide protected content until the session is verified (prevents a flash) */
+body.protected {
+    visibility: hidden;
+}
+
+body.protected.ready {
+    visibility: visible;
 }
 
 .auth-container,
@@ -22,6 +32,11 @@ body {
     max-width: 400px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
+}
+
+.dashboard-container p {
+    color: #555;
+    margin-bottom: 10px;
 }
 
 .auth-form {
@@ -67,6 +82,11 @@ input:focus {
     background-color: #2980b9;
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn.logout {
     background-color: #e74c3c;
     margin-top: 20px;
@@ -89,9 +109,21 @@ input:focus {
     text-decoration: underline;
 }
 
-.error-msg {
-    color: #e74c3c;
+.error-msg,
+.success-msg {
     font-size: 0.85rem;
     display: none;
     text-align: left;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.error-msg {
+    color: #c0392b;
+    background: #fdecea;
+}
+
+.success-msg {
+    color: #1e8449;
+    background: #e8f8f0;
 }

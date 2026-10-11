@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script>
-        // Protected Route Logic: Redirect if no active session is found
-        if (!localStorage.getItem('activeSession')) {
-            window.location.href = 'index.html';
-        }
-    </script>
+    <script src="auth.js"></script>
 </head>
-<body>
+
+<body class="protected">
     <div class="dashboard-container">
-        <h1>Welcome to your Dashboard!</h1>
+        <h1>Welcome, <span id="welcome-name"></span>!</h1>
+        <p>Signed in as <strong id="welcome-email"></strong></p>
         <p>You have successfully authenticated and accessed the protected route.</p>
         <button id="logout-btn" class="btn logout">Logout</button>
     </div>
-
-    <script>
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            // Clear the session and redirect to login
-            localStorage.removeItem('activeSession');
-            window.location.href = 'index.html';
-        });
-    </script>
+    <script src="dashboard.js"></script>
 </body>
+
 </html>

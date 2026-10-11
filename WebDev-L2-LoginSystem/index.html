@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentication System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="auth-container">
         <!-- Login Form -->
-        <form id="login-form" class="auth-form active">
+        <form id="login-form" class="auth-form active" novalidate>
             <h2>Login</h2>
-            <div id="login-error" class="error-msg"></div>
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
+            <div id="login-success" class="success-msg" role="status"></div>
+            <div id="login-error" class="error-msg" role="alert"></div>
+            <input type="text" id="login-id" placeholder="Username or Email" autocomplete="username" required>
+            <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
             <button type="submit" class="btn">Login</button>
-            <p class="toggle-text">Don't have an account? <span onclick="toggleForms()">Register here</span></p>
+            <p class="toggle-text">Don't have an account? <span data-toggle>Register here</span></p>
         </form>
 
         <!-- Registration Form -->
-        <form id="register-form" class="auth-form">
+        <form id="register-form" class="auth-form" novalidate>
             <h2>Register</h2>
-            <div id="register-error" class="error-msg"></div>
-            <input type="text" id="reg-username" placeholder="Username" required>
-            <input type="email" id="reg-email" placeholder="Email" required>
-            <input type="password" id="reg-password" placeholder="Password (min 8 chars, 1 number)" required>
+            <div id="register-error" class="error-msg" role="alert"></div>
+            <input type="text" id="reg-username" placeholder="Username (min 3 chars)" autocomplete="username" required>
+            <input type="email" id="reg-email" placeholder="Email" autocomplete="email" required>
+            <input type="password" id="reg-password" placeholder="Password (min 8 chars, 1 number)"
+                autocomplete="new-password" required>
             <button type="submit" class="btn">Register</button>
-            <p class="toggle-text">Already have an account? <span onclick="toggleForms()">Login here</span></p>
+            <p class="toggle-text">Already have an account? <span data-toggle>Login here</span></p>
         </form>
     </div>
+    <script src="auth.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
