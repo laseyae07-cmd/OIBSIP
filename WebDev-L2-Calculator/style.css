@@ -5,7 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     /* Smooth gradient background */
     background: linear-gradient(135deg, #2c3e50, #3498db);
@@ -21,11 +21,23 @@ body {
     /* Frosted glass effect */
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    
+
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
-    width: 320px;
+    width: min(320px, calc(100vw - 100px));
+}
+
+/* Previous expression, shown small above the main display */
+.expression {
+    grid-column: span 4;
+    min-height: 1.4rem;
+    padding: 0 10px;
+    text-align: right;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    word-break: break-all;
 }
 
 .display {
@@ -35,15 +47,27 @@ body {
     font-size: 2.5rem;
     font-weight: 300;
     text-align: right;
-    padding: 20px 10px;
+    padding: 0 10px 15px;
     margin-bottom: 10px;
+    min-height: 3.5rem;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    word-wrap: break-word;
+    word-break: break-all;
     letter-spacing: 2px;
 }
 
+/* Long expressions shrink so they stay readable */
+.display.small {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+
+.display.error {
+    color: #ff6b6b;
+}
+
 .btn {
-    padding: 20px;
+    padding: 20px 0;
+    font-family: inherit;
     font-size: 1.3rem;
     font-weight: 500;
     border: none;
@@ -67,14 +91,20 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Visible keyboard focus */
+.btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
 /* Specific button styling */
 .number {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.operator { 
-    background-color: #ff9f43; 
-    color: #fff; 
+.operator {
+    background-color: #ff9f43;
+    color: #fff;
     font-size: 1.5rem;
 }
 
@@ -82,17 +112,17 @@ body {
     background-color: #ffb164;
 }
 
-.clear, .backspace { 
-    background-color: #ee5253; 
+.clear, .backspace {
+    background-color: #ee5253;
 }
 
 .clear:hover, .backspace:hover {
     background-color: #ff6b6b;
 }
 
-.equals { 
-    background-color: #1dd1a1; 
-    grid-row: span 2; 
+.equals {
+    background-color: #1dd1a1;
+    grid-row: span 2;
     font-size: 1.8rem;
 }
 
@@ -100,6 +130,11 @@ body {
     background-color: #10e3a6;
 }
 
-.wide { 
-    grid-column: span 2; 
+.wide {
+    grid-column: span 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+    .btn:hover, .btn:active { transform: none; }
 }
